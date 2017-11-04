@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--Menu Option for Adding the New Item -->
+    <item
+        android:orderInCategory="100"
+        android:id="@+id/most_popular"
+        android:title="Most Popular" />
+    <item
+        android:orderInCategory="101"
+        android:id="@+id/upcoming_movies"
+        android:title="Upcoming Movies" />
+    <item
+        android:orderInCategory="102"
+        android:id="@+id/latest_movies"
+        android:title="Latest Movies" />
+    <item
+        android:orderInCategory="103"
+        android:id="@+id/now_playing"
+        android:title="Now Playing" />
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="104"
+        android:title="top_rated"
+        />
+
+
+   <!-- &lt;!&ndash;Menu Option for starting New Intent which opens the Completed
+    List Of items&ndash;&gt;
+    <item
+        android:id="@+id/completed_display"
+        android:icon="@drawable/incomplete"
+        android:orderInCategory="100"
+        android:title="Add"
+        app:showAsAction="always" />-->
+</menu>
