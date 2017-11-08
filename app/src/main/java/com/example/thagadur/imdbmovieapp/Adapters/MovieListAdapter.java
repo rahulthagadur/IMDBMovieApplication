@@ -65,7 +65,7 @@ public  class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Mov
             movieTitle=itemView.findViewById(R.id.movie_title);
             movieReleaseDate=itemView.findViewById(R.id.movie_release_date);
             moviePopularity=itemView.findViewById(R.id.movie_popularity);
-            moviePopularityStar=itemView.findViewById(R.id.popularity_image_star);
+            //moviePopularityStar=itemView.findViewById(R.id.popularity_image_star);
             movieVoteCount=itemView.findViewById(R.id.movie_vote_count);
         }
     }

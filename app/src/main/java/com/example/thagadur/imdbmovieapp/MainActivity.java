@@ -2,8 +2,8 @@ package com.example.thagadur.imdbmovieapp;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
 
     RecyclerView movieRecyclerView;
     Context context;
@@ -61,34 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    class RequestMovieDBdata extends AsyncTask<URL,Void,String>{
-
-        @Override
-        protected String doInBackground(URL... urls) {
-
-            String movieResponseData = null;
-            URL url = urls[0];
-            try {
-                movieResponseData = NetworkUtils.getResponseFromMovieDb(url);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("ErrorMessage", e.getMessage());
-            }
-
-            return movieResponseData;
-        }
-
-        @Override
-        protected void onPostExecute(String movieResponseData) {
-            super.onPostExecute(movieResponseData);
-            Log.d("Data", movieResponseData);
-            if (movieResponseData != null) {
-                loadMovieAdapter(movieResponseData);
-            }
-        }
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,6 +102,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class RequestMovieDBdata extends AsyncTask<URL,Void,String>{
+
+        @Override
+        protected String doInBackground(URL... urls) {
+
+            String movieResponseData = null;
+            URL url = urls[0];
+            try {
+                movieResponseData = NetworkUtils.getResponseFromMovieDb(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("ErrorMessage", e.getMessage());
+            }
+
+            return movieResponseData;
+        }
+
+        @Override
+        protected void onPostExecute(String movieResponseData) {
+            super.onPostExecute(movieResponseData);
+            Log.d("Data", movieResponseData);
+            if (movieResponseData != null) {
+                loadMovieAdapter(movieResponseData);
+            }
+        }
+
     }
 
 }
