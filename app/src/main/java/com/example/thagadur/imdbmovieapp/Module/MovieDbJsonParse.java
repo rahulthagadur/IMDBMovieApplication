@@ -2,8 +2,7 @@ package com.example.thagadur.imdbmovieapp.Module;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-
-import com.example.thagadur.imdbmovieapp.MovieDetails;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,15 +45,22 @@ public class MovieDbJsonParse {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static List<MovieDetails> parseMovieDetailsStringToJson(String movieResultData){
-        List<MovieDetails> movieDBList=new ArrayList<>();
+    public static List<MovieDetailsDB> parseMovieDetailsStringToJson(String movieResultData){
+        Log.i("Movie result Data", movieResultData);
+        List<MovieDetailsDB> movieDetailsList=new ArrayList<>();
+
         try {
             JSONObject movieResultJsonObject=new JSONObject(movieResultData);
             JSONArray movieResultJsonArray=new JSONArray(movieResultJsonObject);
+
+            System.out.println("size of the Json is "+movieResultData.length());
             for (int i=0;i<=movieResultJsonArray.length();i++){
-                MovieDetails movieDetails=new MovieDetails();
-                movieDetails.setTitle(movieResultJsonArray.getJSONObject(i).getString("title"));
-               /* movieDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("original_title"));
+
+                MovieDetailsDB movieDetailsDB=new MovieDetailsDB();
+
+
+                movieDetailsDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("title"));
+                /* movieDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("original_title"));
                 movieDB.setMovieRating(movieResultJsonArray.getJSONObject(i).getString("vote_average"));
                 movieDB.setMovieDescription(movieResultJsonArray.getJSONObject(i).getString("overview"));
                 movieDB.setMovieReleaseDate(movieResultJsonArray.getJSONObject(i).getString("release_date"));
@@ -63,14 +69,16 @@ public class MovieDbJsonParse {
                 movieDB.setMovieVoteCount(movieResultJsonArray.getJSONObject(i).getString("vote_count"));
                 movieDB.setMovieId(movieResultJsonArray.getJSONObject(i).getString("id"));*/
 
-                movieDBList.add(movieDetails);
+                movieDetailsList.add(movieDetailsDB);
+                System.out.println("hi hhh"+movieDetailsList.get(0));
             }
+            Log.i("movieDbList Size",""+movieDetailsList.size());
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return movieDBList;
+        return movieDetailsList;
 
     }
 }

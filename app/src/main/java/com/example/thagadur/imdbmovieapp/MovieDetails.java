@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.thagadur.imdbmovieapp.Module.MovieDbJsonParse;
+import com.example.thagadur.imdbmovieapp.Module.MovieDetailsDB;
 import com.example.thagadur.imdbmovieapp.utilities.NetworkUtils;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class MovieDetails extends AppCompatActivity {
     public static String movieId= null;
     public static String movieDetailsUrl=null;
     public static String apiKey="?api_key=8496be0b2149805afa458ab8ec27560c";
-    List<MovieDetails> movieDBList;
+    List<MovieDetailsDB> movieDetailsDBs;
     Context context;
     TextView movieTitleText,movieDescriptionText;
 
@@ -64,8 +65,10 @@ public class MovieDetails extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loadMovieAdapter(String movieResponseData) {
-        movieDBList = MovieDbJsonParse.parseMovieDetailsStringToJson(movieResponseData);
-        movieTitleText.setText(movieDBList.get(0).getTitle().toString());
+        Log.i("Hi see the Json String ", movieResponseData);
+        movieDetailsDBs = MovieDbJsonParse.parseMovieDetailsStringToJson(movieResponseData);
+        Log.i("ArrayList Size",""+movieDetailsDBs.size());
+        movieTitleText.setText(movieDetailsDBs.get(0).getMovieTitle().toString());
        /* movieListAdapter = new MovieListAdapter(context, movieDBList);
         movieRecyclerView.setAdapter(movieListAdapter);*/
     }
