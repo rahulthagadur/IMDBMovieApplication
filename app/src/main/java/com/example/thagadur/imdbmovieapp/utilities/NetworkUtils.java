@@ -3,6 +3,7 @@ package com.example.thagadur.imdbmovieapp.utilities;
 import android.net.Uri;
 
 import com.example.thagadur.imdbmovieapp.Contants.Constant;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -22,6 +23,18 @@ public class NetworkUtils {
     public static  URL buildUrl(String movieDbQuery) {
         Uri movieDbUri = Uri.parse(movieDbQuery).buildUpon()
                 .appendQueryParameter(Constant.PARAM_QUERY, Constant.API_KEY)
+                .build();
+        URL url = null;
+        try {
+            url = new URL(movieDbUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildUrlMovieDetails(String moviDetailsQuery){
+        Uri movieDbUri = Uri.parse(moviDetailsQuery).buildUpon()
                 .build();
         URL url = null;
         try {

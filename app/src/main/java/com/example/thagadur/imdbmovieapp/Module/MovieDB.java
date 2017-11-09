@@ -16,8 +16,21 @@ public class MovieDB {
     String movieWatchListImgae;
     String movieFavListImage;
     String moviePosters;
+    String movieId;
+    String movieTrailers;
+    String movieCast;
+    String movieCrew;
+    String imagePath;
+    String movieVoteCount;
+    String moviePopularity;
 
+    public String getMovieId() {
+        return movieId;
+    }
 
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
 
     public String getMoviePopularity() {
         return moviePopularity;
@@ -27,11 +40,6 @@ public class MovieDB {
         this.moviePopularity = moviePopularity;
     }
 
-    String movieTrailers;
-    String movieCast;
-    String movieCrew;
-    String imagePath;
-
     public String getMovieVoteCount() {
         return movieVoteCount;
     }
@@ -39,9 +47,6 @@ public class MovieDB {
     public void setMovieVoteCount(String movieVoteCount) {
         this.movieVoteCount = movieVoteCount;
     }
-
-    String movieVoteCount;
-    String moviePopularity;
 
     public String getMovieDescription() {
         return movieDescription;

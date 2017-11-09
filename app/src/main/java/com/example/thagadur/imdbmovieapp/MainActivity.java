@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         movieDBList = MovieDbJsonParse.parseMovieStringToJson(movieResponseData);
         movieListAdapter = new MovieListAdapter(context, movieDBList);
         movieRecyclerView.setAdapter(movieListAdapter);
-
-
     }
 
     @Override
@@ -98,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         {
 
             String movieUrlQuery=Constant.SORT_BY_LATEST;
+            loadMovieData(movieUrlQuery);
+        }
+        else if(selectedItemId==R.id.top_rated)
+        {
+
+            String movieUrlQuery=Constant.SORT_BY_TOP_RATED;
             loadMovieData(movieUrlQuery);
         }
 
