@@ -28,7 +28,7 @@
                 android:layout_below="@+id/title"
                 android:layout_toEndOf="@+id/movieImage"
                 android:layout_toRightOf="@+id/movieImage"
-                android:stepSize="2" />
+                />
 
             <TextView
                 android:id="@+id/title"
@@ -39,6 +39,7 @@
                 android:layout_toRightOf="@+id/movieImage"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -105,6 +106,15 @@
                 android:layout_toRightOf="@+id/movie_rating_bar2"
                 android:text="New Text" />
 
+            <TextView
+                android:id="@+id/vote_count_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vote_average"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/movie_rating_bar2"
+                android:layout_toRightOf="@+id/movie_rating_bar2"
+                android:text="New Text" />
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"

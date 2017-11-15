@@ -51,23 +51,25 @@ public class MovieDbJsonParse {
 
         try {
             JSONObject movieResultJsonObject=new JSONObject(movieResultData);
-            JSONArray movieResultJsonArray=new JSONArray(movieResultJsonObject);
+            JSONArray movieResultJsonArray=new JSONArray();
+            movieResultJsonArray.put(movieResultJsonObject);
 
             System.out.println("size of the Json is "+movieResultData.length());
-            for (int i=0;i<=movieResultJsonArray.length();i++){
+            for (int i=0;i<movieResultJsonArray.length();i++){
 
                 MovieDetailsDB movieDetailsDB=new MovieDetailsDB();
 
-
+                movieDetailsDB.setMovieImage(movieResultJsonArray.getJSONObject(i).getString("poster_path"));
                 movieDetailsDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("title"));
-                /* movieDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("original_title"));
-                movieDB.setMovieRating(movieResultJsonArray.getJSONObject(i).getString("vote_average"));
-                movieDB.setMovieDescription(movieResultJsonArray.getJSONObject(i).getString("overview"));
-                movieDB.setMovieReleaseDate(movieResultJsonArray.getJSONObject(i).getString("release_date"));
-                movieDB.setMoviePosters(movieResultJsonArray.getJSONObject(i).getString("poster_path"));
-                movieDB.setMoviePopularity(movieResultJsonArray.getJSONObject(i).getString("popularity"));
-                movieDB.setMovieVoteCount(movieResultJsonArray.getJSONObject(i).getString("vote_count"));
-                movieDB.setMovieId(movieResultJsonArray.getJSONObject(i).getString("id"));*/
+                movieDetailsDB.setMovieTagLine(movieResultJsonArray.getJSONObject(i).getString("tagline"));
+                movieDetailsDB.setMovieRealeaseDate(movieResultJsonArray.getJSONObject(i).getString("release_date"));
+                movieDetailsDB.setMovieBudget(movieResultJsonArray.getJSONObject(i).getString("budget"));
+                movieDetailsDB.setMovieRevenue(movieResultJsonArray.getJSONObject(i).getString("revenue"));
+                movieDetailsDB.setMovieStatus(movieResultJsonArray.getJSONObject(i).getString("status"));
+                movieDetailsDB.setMovieVoteAverage(movieResultJsonArray.getJSONObject(i).getString("vote_average"));
+                movieDetailsDB.setMovieDescription(movieResultJsonArray.getJSONObject(i).getString("overview"));
+                movieDetailsDB.setMovieVoteCountUsers(movieResultJsonArray.getJSONObject(i).getString("vote_count"));
+
 
                 movieDetailsList.add(movieDetailsDB);
                 System.out.println("hi hhh"+movieDetailsList.get(0));
