@@ -17,13 +17,13 @@ import java.util.List;
 
 public class MovieDbJsonParse {
 
-    public static List<MovieDB> parseMovieStringToJson(String movieResultData){
-        List<MovieDB> movieDBList=new ArrayList<>();
+    public static List<MovieDB> parseMovieStringToJson(String movieResultData) {
+        List<MovieDB> movieDBList = new ArrayList<>();
         try {
-            JSONObject movieResultJsonObject=new JSONObject(movieResultData);
-            JSONArray movieResultJsonArray=movieResultJsonObject.getJSONArray("results");
-            for (int i=0;i<=movieResultJsonArray.length();i++){
-                MovieDB movieDB=new MovieDB();
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = movieResultJsonObject.getJSONArray("results");
+            for (int i = 0; i <= movieResultJsonArray.length(); i++) {
+                MovieDB movieDB = new MovieDB();
 
                 movieDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("original_title"));
                 movieDB.setMovieRating(movieResultJsonArray.getJSONObject(i).getString("vote_average"));
@@ -36,7 +36,6 @@ public class MovieDbJsonParse {
 
                 movieDBList.add(movieDB);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -45,19 +44,19 @@ public class MovieDbJsonParse {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static List<MovieDetailsDB> parseMovieDetailsStringToJson(String movieResultData){
+    public static List<MovieDetailsDB> parseMovieDetailsStringToJson(String movieResultData) {
         Log.i("Movie result Data", movieResultData);
-        List<MovieDetailsDB> movieDetailsList=new ArrayList<>();
+        List<MovieDetailsDB> movieDetailsList = new ArrayList<>();
 
         try {
-            JSONObject movieResultJsonObject=new JSONObject(movieResultData);
-            JSONArray movieResultJsonArray=new JSONArray();
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = new JSONArray();
             movieResultJsonArray.put(movieResultJsonObject);
 
-            System.out.println("size of the Json is "+movieResultData.length());
-            for (int i=0;i<movieResultJsonArray.length();i++){
+            System.out.println("size of the Json is " + movieResultData.length());
+            for (int i = 0; i < movieResultJsonArray.length(); i++) {
 
-                MovieDetailsDB movieDetailsDB=new MovieDetailsDB();
+                MovieDetailsDB movieDetailsDB = new MovieDetailsDB();
 
                 movieDetailsDB.setMovieImage(movieResultJsonArray.getJSONObject(i).getString("poster_path"));
                 movieDetailsDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("title"));
@@ -72,9 +71,9 @@ public class MovieDbJsonParse {
 
 
                 movieDetailsList.add(movieDetailsDB);
-                System.out.println("hi hhh"+movieDetailsList.get(0));
+                System.out.println("hi hhh" + movieDetailsList.get(0));
             }
-            Log.i("movieDbList Size",""+movieDetailsList.size());
+            Log.i("movieDbList Size", "" + movieDetailsList.size());
 
 
         } catch (JSONException e) {
