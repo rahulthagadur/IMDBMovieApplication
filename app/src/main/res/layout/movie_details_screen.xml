@@ -28,6 +28,8 @@
                 android:layout_below="@+id/title"
                 android:layout_toEndOf="@+id/movieImage"
                 android:layout_toRightOf="@+id/movieImage"
+                android:isIndicator="true"
+                android:stepSize="2"
                 />
 
             <TextView
@@ -89,12 +91,13 @@
                 android:text="New Text" />
 
             <RatingBar
-                android:id="@+id/movie_rating_bar2"
+                android:id="@+id/movie_single_star_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/movieImage"
+                android:isIndicator="true"
                 android:numStars="1" />
 
             <TextView
@@ -102,8 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/movieImage"
-                android:layout_toEndOf="@+id/movie_rating_bar2"
-                android:layout_toRightOf="@+id/movie_rating_bar2"
+                android:layout_toEndOf="@+id/movie_single_star_rating_bar"
+                android:layout_toRightOf="@+id/movie_single_star_rating_bar"
                 android:text="New Text" />
 
             <TextView
@@ -112,8 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vote_average"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/movie_rating_bar2"
-                android:layout_toRightOf="@+id/movie_rating_bar2"
+                android:layout_toEndOf="@+id/movie_single_star_rating_bar"
+                android:layout_toRightOf="@+id/movie_single_star_rating_bar"
                 android:text="New Text" />
             <TextView
                 android:id="@+id/description"
@@ -121,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/movie_rating_bar2"
+                android:layout_below="@+id/movie_single_star_rating_bar"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:text="New Text" />

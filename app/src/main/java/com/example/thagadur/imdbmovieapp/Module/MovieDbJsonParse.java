@@ -2,7 +2,6 @@ package com.example.thagadur.imdbmovieapp.Module;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +16,11 @@ import java.util.List;
 
 public class MovieDbJsonParse {
 
+    /**
+     *
+     * @param movieResultData
+     * @return
+     */
     public static List<MovieDB> parseMovieStringToJson(String movieResultData) {
         List<MovieDB> movieDBList = new ArrayList<>();
         try {
@@ -43,9 +47,15 @@ public class MovieDbJsonParse {
 
     }
 
+    /**
+     * parseMovieDetailsStringToJson () is used to get the Json Object , Json arrays and we are going
+     * to set the value to a list of type MovieDetailsDB so that the data can be Viewed in the Layout
+     * @param movieResultData- Consits of Movie Results data in the form of String
+     * @return movieDetailsList which contains all the necessary of movie details data in the ArrayList
+     */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static List<MovieDetailsDB> parseMovieDetailsStringToJson(String movieResultData) {
-        Log.i("Movie result Data", movieResultData);
+        //Log.i("Movie result Data", movieResultData);
         List<MovieDetailsDB> movieDetailsList = new ArrayList<>();
 
         try {
@@ -53,7 +63,7 @@ public class MovieDbJsonParse {
             JSONArray movieResultJsonArray = new JSONArray();
             movieResultJsonArray.put(movieResultJsonObject);
 
-            System.out.println("size of the Json is " + movieResultData.length());
+            //System.out.println("size of the Json is " + movieResultData.length());
             for (int i = 0; i < movieResultJsonArray.length(); i++) {
 
                 MovieDetailsDB movieDetailsDB = new MovieDetailsDB();
@@ -69,11 +79,10 @@ public class MovieDbJsonParse {
                 movieDetailsDB.setMovieDescription(movieResultJsonArray.getJSONObject(i).getString("overview"));
                 movieDetailsDB.setMovieVoteCountUsers(movieResultJsonArray.getJSONObject(i).getString("vote_count"));
 
-
                 movieDetailsList.add(movieDetailsDB);
-                System.out.println("hi hhh" + movieDetailsList.get(0));
+               // System.out.println("hi hhh" + movieDetailsList.get(0));
             }
-            Log.i("movieDbList Size", "" + movieDetailsList.size());
+           // Log.i("movieDbList Size", "" + movieDetailsList.size());
 
 
         } catch (JSONException e) {

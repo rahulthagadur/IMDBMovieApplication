@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.thagadur.imdbmovieapp.Contants.Constant;
@@ -15,6 +16,7 @@ import com.example.thagadur.imdbmovieapp.MovieDetails;
 import com.example.thagadur.imdbmovieapp.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -49,9 +51,17 @@ public  class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Mov
         final String movieReleaseDate = MovieDB.getMovieReleaseDate();
         final String movieRating = MovieDB.getMovieRating();
         final String movieId = MovieDB.getMovieId();
+        final String movieVoteCount= MovieDB.getMovieVoteCount();
+        final float movieRatingBar=Float.parseFloat(MovieDB.getMovieRating())/10;
+        final float movieRatingBarFive=Float.parseFloat(MovieDB.getMovieRating())/2;
+
         holder.movieTitle.setText(movieTitle);
-        holder.moviePopularity.setText(movieRating);
-        holder.movieReleaseDate.setText(movieReleaseDate);
+        holder.movieVoteCount.setText("("+movieRating+"/10) voted by "+NumberFormat.getIntegerInstance().format(Integer.parseInt(movieVoteCount))+" users");
+        holder.movieReleaseDate.setText("Released on : "+movieReleaseDate);
+        ///holder.movieVoteCount.setText("voted by "+ NumberFormat.getIntegerInstance().format(movieVoteCount)+"users");
+        holder.movieSingleStarRatingBar.setRating(movieRatingBar);
+        holder.movieRatingBarFive.setRating(movieRatingBarFive);
+
         Picasso.with(context).load(Constant.POSTER_PATH + moviePoster).into(holder.imageViewMoviePoster);
 
         holder.imageViewMoviePoster.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +86,8 @@ public  class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Mov
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewMoviePoster,moviePopularityStar;
-        TextView movieTitle, movieReleaseDate, moviePopularity,movieVoteCount;
+        TextView movieTitle, movieReleaseDate, moviePopularity,movieVoteCount,movieVoteAverage;
+        RatingBar movieSingleStarRatingBar,movieRatingBarFive;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
@@ -84,9 +95,10 @@ public  class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Mov
             movieTitle=itemView.findViewById(R.id.movie_title);
             movieReleaseDate=itemView.findViewById(R.id.movie_release_date);
             moviePopularity=itemView.findViewById(R.id.movie_popularity);
-            //moviePopularityStar=itemView.findViewById(R.id.popularity_image_star);
+            movieRatingBarFive=itemView.findViewById(R.id.ratingBar);
+            movieSingleStarRatingBar=itemView.findViewById(R.id.user_rating);
+            movieVoteAverage=itemView.findViewById(R.id.movie_vote_average);
             movieVoteCount=itemView.findViewById(R.id.movie_vote_count);
-
 
         }
     }
