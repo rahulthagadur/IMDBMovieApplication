@@ -17,7 +17,6 @@ import java.util.List;
 public class MovieDbJsonParse {
 
     /**
-     *
      * @param movieResultData
      * @return
      */
@@ -50,6 +49,7 @@ public class MovieDbJsonParse {
     /**
      * parseMovieDetailsStringToJson () is used to get the Json Object , Json arrays and we are going
      * to set the value to a list of type MovieDetailsDB so that the data can be Viewed in the Layout
+     *
      * @param movieResultData- Consits of Movie Results data in the form of String
      * @return movieDetailsList which contains all the necessary of movie details data in the ArrayList
      */
@@ -80,9 +80,9 @@ public class MovieDbJsonParse {
                 movieDetailsDB.setMovieVoteCountUsers(movieResultJsonArray.getJSONObject(i).getString("vote_count"));
 
                 movieDetailsList.add(movieDetailsDB);
-               // System.out.println("hi hhh" + movieDetailsList.get(0));
+                // System.out.println("hi hhh" + movieDetailsList.get(0));
             }
-           // Log.i("movieDbList Size", "" + movieDetailsList.size());
+            // Log.i("movieDbList Size", "" + movieDetailsList.size());
 
 
         } catch (JSONException e) {
@@ -90,5 +90,29 @@ public class MovieDbJsonParse {
         }
         return movieDetailsList;
 
+    }
+
+    public static List<MoviePostersDB> parseMoviePostersStringToJson(String movieResultData) {
+        //Log.i("Movie result Data", movieResultData);
+        List<MoviePostersDB> moviePostersDBList = new ArrayList<>();
+
+        try {
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = movieResultJsonObject.getJSONArray("backdrops");
+            movieResultJsonArray.put(movieResultJsonObject);
+
+            //System.out.println("size of the Json is " + movieResultData.length());
+            for (int i = 0; i < movieResultJsonArray.length(); i++) {
+
+                MoviePostersDB moviePostersDB = new MoviePostersDB();
+                moviePostersDB.setFilePath(movieResultJsonArray.getJSONObject(i).get("file_path").toString());
+                moviePostersDBList.add(moviePostersDB);
+                System.out.println("Hello "+moviePostersDBList.get(i).getFilePath());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return moviePostersDBList;
     }
 }

@@ -6,14 +6,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.thagadur.imdbmovieapp.Contants.Constant;
 import com.example.thagadur.imdbmovieapp.Module.MovieDbJsonParse;
 import com.example.thagadur.imdbmovieapp.Module.MovieDetailsDB;
+import com.example.thagadur.imdbmovieapp.Module.MoviePostersDB;
 import com.example.thagadur.imdbmovieapp.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +37,10 @@ public class MovieDetails extends AppCompatActivity {
     public static String moviePostersUrl=null;
     public static String apiKey = "?api_key=8496be0b2149805afa458ab8ec27560c";
     List<MovieDetailsDB> movieDetailsDBs;
+    List<MoviePostersDB> moviePostersDBs;
+    MoviePosterData moviePosterData;
     Context context;
+    RecyclerView moviePoster;
     TextView movieTitleText, movieReleaseDateText, movieBudgetText, movieRevenueText, movieReleaseStatusText;
     TextView movieVoteAverageText, movieDescriptionText, movieTagLineText, movieVoteCountUsers;
     RatingBar movieRatingBar,movieSingleStarRatingBar;
@@ -48,15 +55,15 @@ public class MovieDetails extends AppCompatActivity {
         movieId = intent.getString("movieId");
         initialisationOfId();
         movieDetailsUrl = "http://api.themoviedb.org/3/movie/" + movieId + apiKey;
-        moviePostersUrl = "http://api.themoviedb.org/3/movie/"+movieId+"/images/"+apiKey;
+        moviePostersUrl = "http://api.themoviedb.org/3/movie/"+movieId+"/images"+apiKey;
         loadMovieDetailsData(movieDetailsUrl);
-        //laodMoviePostersData(moviePostersUrl);
+        laodMoviePostersData(moviePostersUrl);
 
     }
-  /*  public void laodMoviePostersData(String moviePostersUrl){
+    public void laodMoviePostersData(String moviePostersUrl){
         URL url =NetworkUtils.buildUrl(moviePostersUrl);
         new RequestMoviePostersdata().execute(url);
-    }*/
+    }
 
     public void loadMovieDetailsData(String movieDetailsUrl) {
         URL url = NetworkUtils.buildUrl(movieDetailsUrl);
@@ -76,7 +83,10 @@ public class MovieDetails extends AppCompatActivity {
         movieVoteCountUsers = (TextView) findViewById(R.id.vote_count_users);
         movieRatingBar = (RatingBar) findViewById(R.id.ratingBar2);
         movieImage = (ImageView) findViewById(R.id.movieImage);
+        moviePoster=(RecyclerView)findViewById(R.id.poster_image);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context,LinearLayout.HORIZONTAL,false);
         movieSingleStarRatingBar=(RatingBar)findViewById(R.id.movie_single_star_rating_bar);
+        moviePoster.setLayoutManager(linearLayoutManager);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -89,8 +99,17 @@ public class MovieDetails extends AppCompatActivity {
 
     private void loadMoviePostersAdapter(String movieResponsePosterData){
 
+        moviePostersDBs= MovieDbJsonParse.parseMoviePostersStringToJson(movieResponsePosterData);
+        setPosterIntoLayoutFields(moviePostersDBs);
+
     }
 
+    public void setPosterIntoLayoutFields(List<MoviePostersDB> moviePostersDBs){
+
+        moviePosterData = new MoviePosterData(context, moviePostersDBs);
+        moviePoster.setAdapter(moviePosterData);
+
+    }
     //    Stting Data into the Text fields From the movieDetailsDBs List
     public void setDataIntoLayoutFields(List<MovieDetailsDB> movieDetailsDBs) {
         //Formatting the Numbers into Readable Form
@@ -115,7 +134,7 @@ public class MovieDetails extends AppCompatActivity {
 
         //movieRatingBar.setStepSize(d);
     }
-/*    class  RequestMoviePostersdata extends  AsyncTask<URL, Void, String>{
+    class  RequestMoviePostersdata extends  AsyncTask<URL, Void, String>{
 
         @Override
         protected String doInBackground(URL... urls) {
@@ -125,6 +144,7 @@ public class MovieDetails extends AppCompatActivity {
                 moviePostersResponseData=NetworkUtils.getResponseFromMovieDb(url);
             } catch (IOException e) {
                 e.printStackTrace();
+                moviePostersResponseData=e.getMessage();
             }
 
 
@@ -138,7 +158,7 @@ public class MovieDetails extends AppCompatActivity {
                 loadMoviePostersAdapter(movieResponsePosterData);
             }
         }
-    }*/
+    }
 
     class RequestMovieDetailsdata extends AsyncTask<URL, Void, String> {
 
