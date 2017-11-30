@@ -46,6 +46,7 @@ public class MovieDbJsonParse {
 
     }
 
+
     /**
      * parseMovieDetailsStringToJson () is used to get the Json Object , Json arrays and we are going
      * to set the value to a list of type MovieDetailsDB so that the data can be Viewed in the Layout
@@ -115,4 +116,83 @@ public class MovieDbJsonParse {
 
         return moviePostersDBList;
     }
+
+    public static List<MovieCastCrewDB> parseMovieCastStringToJson(String movieResultData) {
+        //Log.i("Movie result Data", movieResultData);
+        List<MovieCastCrewDB> movieCastDBList = new ArrayList<>();
+
+        try {
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = movieResultJsonObject.getJSONArray("cast");
+            movieResultJsonArray.put(movieResultJsonObject);
+
+            //System.out.println("size of the Json is " + movieResultData.length());
+            for (int i = 0; i < movieResultJsonArray.length(); i++) {
+
+                MovieCastCrewDB movieCastDB = new MovieCastCrewDB();
+                movieCastDB.setCastFilePath(movieResultJsonArray.getJSONObject(i).get("profile_path").toString());
+                movieCastDB.setCastFullName(movieResultJsonArray.getJSONObject(i).get("name").toString());
+                movieCastDB.setCastCharater(movieResultJsonArray.getJSONObject(i).get("character").toString());
+                movieCastDBList.add(movieCastDB);
+                System.out.println("Hello " + movieCastDBList.get(i).getCastFilePath());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return movieCastDBList;
+    }
+
+    public static List<MovieCastCrewDB> parseMovieCrewStringToJson(String movieResultData) {
+        //Log.i("Movie result Data", movieResultData);
+        List<MovieCastCrewDB> movieCrewDBList = new ArrayList<>();
+
+        try {
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = movieResultJsonObject.getJSONArray("crew");
+            movieResultJsonArray.put(movieResultJsonObject);
+
+            //System.out.println("size of the Json is " + movieResultData.length());
+            for (int i = 0; i < movieResultJsonArray.length(); i++) {
+
+                MovieCastCrewDB movieCrewDB = new MovieCastCrewDB();
+                movieCrewDB.setCrewFilePath(movieResultJsonArray.getJSONObject(i).get("profile_path").toString());
+                movieCrewDB.setCrewFullName(movieResultJsonArray.getJSONObject(i).get("name").toString());
+                movieCrewDB.setCrewjob(movieResultJsonArray.getJSONObject(i).get("job").toString());
+                movieCrewDBList.add(movieCrewDB);
+                System.out.println("Hello " + movieCrewDBList.get(i).getCrewFilePath());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return movieCrewDBList;
+    }
+
+    public static List<MovieTrailerDBs> parseMovieTrailerStringToJson(String movieResultData) {
+        //Log.i("Movie result Data", movieResultData);
+        List<MovieTrailerDBs> movieTrailerList = new ArrayList<>();
+
+        try {
+            JSONObject movieResultJsonObject = new JSONObject(movieResultData);
+            JSONArray movieResultJsonArray = movieResultJsonObject.getJSONArray("results");
+            movieResultJsonArray.put(movieResultJsonObject);
+
+            //System.out.println("size of the Json is " + movieResultData.length());
+            for (int i = 0; i < movieResultJsonArray.length(); i++) {
+
+                MovieTrailerDBs movieTrailerDB = new MovieTrailerDBs();
+                movieTrailerDB.setKey(movieResultJsonArray.getJSONObject(i).get("key").toString());
+                movieTrailerDB.setTrailerName(movieResultJsonArray.getJSONObject(i).get("name").toString());
+                movieTrailerDB.setTrailerType(movieResultJsonArray.getJSONObject(i).get("type").toString());
+                movieTrailerList.add(movieTrailerDB);
+                System.out.println("Hello " + movieTrailerList.get(i).getTrailerName());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return movieTrailerList;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.thagadur.imdbmovieapp;
+package com.example.thagadur.imdbmovieapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.example.thagadur.imdbmovieapp.Contants.Constant;
 import com.example.thagadur.imdbmovieapp.Module.MoviePostersDB;
+import com.example.thagadur.imdbmovieapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
