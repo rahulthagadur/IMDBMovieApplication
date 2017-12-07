@@ -20,6 +20,7 @@ import com.example.thagadur.imdbmovieapp.utilities.NetworkUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView movieRecyclerView;
     Context context;
+    Database db;
     List<MovieDB> movieDBList;
     MovieListAdapter movieListAdapter;
+    ArrayList<HashMap<String, String>> movieList;
     String movieDbUrlPopular;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
             String movieUrlQuery=Constant.SORT_BY_TOP_RATED;
             loadMovieData(movieUrlQuery);
+        } else if (selectedItemId == R.id.favourites) {
+            db = new Database(this);
+            movieDBList = db.getAllData();
+            movieListAdapter = new MovieListAdapter(context, movieDBList);
+            movieRecyclerView.setAdapter(movieListAdapter);
+//            movieList=new ArrayList<HashMap<String, String>>();
+//            movieList=db.getFavorites();
+//            MyAdapter adapter=new MyAdapter(this,movieList);
+//            movieRecyclerView.setAdapter(adapter);
+//            return true;
         }
 
         return super.onOptionsItemSelected(item);

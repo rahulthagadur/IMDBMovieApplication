@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -49,17 +50,18 @@ public class MovieDetails extends AppCompatActivity {
     List<MovieCastCrewDB> movieCasstDBs;
     List<MovieCastCrewDB> movieCrewDBs;
     List<MovieTrailerDBs> movieTrailerDBs;
-
+    Bundle bundle;
     MoviePosterData moviePosterData;
     MovieCastData movieCastData;
     MovieCrewData movieCrewData;
     MovieTrailerData movieTrailerData;
+    Movies movie;
     Context context;
     RecyclerView moviePoster, movieCast, movieCrew, movieTrailer;
     TextView movieTitleText, movieReleaseDateText, movieBudgetText, movieRevenueText, movieReleaseStatusText;
     TextView movieVoteAverageText, movieDescriptionText, movieTagLineText, movieVoteCountUsers;
     RatingBar movieRatingBar,movieSingleStarRatingBar;
-    ImageView movieImage;
+    ImageView movieImage, favoriteImage, watchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class MovieDetails extends AppCompatActivity {
         setContentView(R.layout.movie_details_screen);
 
         Bundle intent = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         movieId = intent.getString("movieId");
         initialisationOfId();
         movieDetailsUrl = "http://api.themoviedb.org/3/movie/" + movieId + apiKey;
@@ -78,7 +81,106 @@ public class MovieDetails extends AppCompatActivity {
         loadMovieCastData(movieCastAndCrewsUrl);
         loadMovieTrailerData(movieTrailerUrl);
 
+        movie = new Movies();
+        favoriteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkMovie(movieId);
+                Object tag = favoriteImage.getTag();
+                movie._id = movieDetailsDBs.get(0).getMovieTagId();
+                movie._title = movieDetailsDBs.get(0).getMovieTitle();
+                movie._poster_path = movieDetailsDBs.get(0).getMovieImage();
+                movie.release__date = movieDetailsDBs.get(0).getMovieRealeaseDate();
+                movie._vote_average = movieDetailsDBs.get(0).getMovieVoteAverage();
+                movie._vote_count = movieDetailsDBs.get(0).getMovieVoteCountUsers();
+                if (tag == "disable") {
+                    favoriteImage.setImageResource(R.drawable.favorite_enable_normal);
+                    favoriteImage.setTag("enable");
+                    movie.setIsFavorite(String.valueOf(1));
+                    Database db = new Database(MovieDetails.this);
+                    boolean check = db.checkMovie(movie.getID());
+                    if (check)
+                        db.updateMovieF(movie);
+                    else
+                        db.addMovie(movie);
+                } else {
+                    favoriteImage.setImageResource(R.drawable.favorite_disable_normal);
+                    favoriteImage.setTag("disable");
+                    movie.setIsFavorite(String.valueOf(0));
+                    Database db = new Database(MovieDetails.this);
+                    db.updateMovieF(movie);
+                    db.deleteNonFavWatchMovie();
+                }
+            }
+        });
 
+
+        watchList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkMovie(movieId);
+                Object tag = watchList.getTag();
+                movie._id = movieDetailsDBs.get(0).getMovieTagId();
+                movie._title = movieDetailsDBs.get(0).getMovieTitle();
+                movie._poster_path = movieDetailsDBs.get(0).getMovieImage();
+                movie.release__date = movieDetailsDBs.get(0).getMovieRealeaseDate();
+                movie._vote_average = movieDetailsDBs.get(0).getMovieVoteAverage();
+                movie._vote_count = movieDetailsDBs.get(0).getMovieVoteCountUsers();
+                if (tag == "disable") {
+                    watchList.setImageResource(R.drawable.watchlist_enable_normal);
+                    watchList.setTag("enable");
+                    movie.setIsWatchlist(String.valueOf(1));
+                    Database db = new Database(MovieDetails.this);
+                    boolean check = db.checkMovie(movie.getID());
+                    if (check)
+                        db.updateMovieW(movie);
+                    else
+                        db.addMovie(movie);
+                } else {
+                    watchList.setImageResource(R.drawable.watchlist_disable_normal);
+                    watchList.setTag("disable");
+                    movie.setIsWatchlist(String.valueOf(0));
+                    Database db = new Database(MovieDetails.this);
+                    db.updateMovieW(movie);
+                    db.deleteNonFavWatchMovie();
+                }
+            }
+        });
+    }
+
+    private void checkMovie(String id) {
+
+        Database db = new Database(MovieDetails.this);
+        db.deleteNonFavWatchMovie();
+        Boolean check = db.checkMovie(id);
+        if (!check) { //checks if movie does not existing in database
+            favoriteImage.setImageResource(R.drawable.favorite_disable_normal);
+            favoriteImage.setTag("disable");
+            watchList.setImageResource(R.drawable.watchlist_disable_normal);
+            watchList.setTag("disable");
+        } else { //if movie does exist
+            Movies movieInfo = db.getMovie(id);
+            if (movieInfo.getIsFavorite().equals("0")) { //set image based on database value
+                favoriteImage.setImageResource(R.drawable.favorite_disable_normal);
+                favoriteImage.setTag("disable");
+                movie.setIsFavorite(String.valueOf(0));
+
+            } else {
+                favoriteImage.setImageResource(R.drawable.favorite_enable_normal);
+                favoriteImage.setTag("enable");
+                movie.setIsFavorite(String.valueOf(1));
+            }
+
+            if (movieInfo.getIsWatchlist().equals("0")) { //set image based on database value
+                watchList.setImageResource(R.drawable.watchlist_disable_normal);
+                watchList.setTag("disable");
+                movie.setIsWatchlist(String.valueOf(0));
+            } else {
+                watchList.setImageResource(R.drawable.watchlist_enable_normal);
+                watchList.setTag("enable");
+                movie.setIsWatchlist(String.valueOf(1));
+            }
+        }
     }
 
     public void loadMovieTrailerData(String movieTrailerUrl) {
@@ -130,6 +232,9 @@ public class MovieDetails extends AppCompatActivity {
         movieCrew = (RecyclerView) findViewById(R.id.crew_list);
         LinearLayoutManager linearLayoutManagerCrew = new LinearLayoutManager(context, LinearLayout.HORIZONTAL, false);
         movieCrew.setLayoutManager(linearLayoutManagerCrew);
+
+        favoriteImage = (ImageView) findViewById(R.id.favourite_image_view);
+        watchList = (ImageView) findViewById(R.id.watchlist_image_view);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

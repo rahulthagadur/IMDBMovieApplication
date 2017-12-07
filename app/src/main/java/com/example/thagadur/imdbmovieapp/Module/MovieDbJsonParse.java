@@ -69,6 +69,8 @@ public class MovieDbJsonParse {
 
                 MovieDetailsDB movieDetailsDB = new MovieDetailsDB();
 
+                movieDetailsDB.setMovieTagId(movieResultJsonArray.getJSONObject(i).getString("id"));
+                movieDetailsDB.setMovieIMDB_Id(movieResultJsonArray.getJSONObject(i).getString("imdb_id"));
                 movieDetailsDB.setMovieImage(movieResultJsonArray.getJSONObject(i).getString("poster_path"));
                 movieDetailsDB.setMovieTitle(movieResultJsonArray.getJSONObject(i).getString("title"));
                 movieDetailsDB.setMovieTagLine(movieResultJsonArray.getJSONObject(i).getString("tagline"));

@@ -12,8 +12,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import com.example.thagadur.imdbmovieapp.Module.MovieDB;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 class Database extends SQLiteOpenHelper {
 
@@ -42,10 +44,8 @@ class Database extends SQLiteOpenHelper {
             .append(COLUMN_TITLE).append(DATATYPE_VARCHAR + COMMA)
             .append(COLUMN_RELEASE_DATE).append(DATATYPE_VARCHAR + COMMA)
             .append(COLUMN_POSTER_PATH).append(DATATYPE_VARCHAR + COMMA)
-
             .append(COLUMN_VOTE_AVERAGE).append(DATATYPE_VARCHAR + COMMA)
             .append(COLUMN_VOTE_COUNT).append(DATATYPE_VARCHAR + COMMA)
-
             .append(COLUMN_IS_FAVORITE).append(DATATYPE_NUMERIC + COMMA)
             .append(COLUMN_IS_WATCHLIST).append(DATATYPE_NUMERIC + COMMA)
             .append("UNIQUE(").append(COLUMN_ID).append(") ON CONFLICT REPLACE)").toString();
@@ -134,66 +134,35 @@ class Database extends SQLiteOpenHelper {
         return db.update(TABLE_MOVIEDETAILS, values, COLUMN_ID + "=?", new String[]{movieInfo.getID()});
     }
 
-    public ArrayList<HashMap<String, String>> getFavorites() {
-        ArrayList<HashMap<String, String>> allMovies = new ArrayList<HashMap<String, String>>();
 
+    public List<MovieDB> getAllData() {
+        List<MovieDB> movieDBList = new ArrayList<>();
+        //db=dbHelper.getReadableDatabase();
+        //String query = "SELECT * FROM " + Constants.TO_DO_LIST + " where " + Constants.KEY_STATUS + " = " + 0;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_MOVIEDETAILS,
                 new String[]{COLUMN_ID, COLUMN_TITLE, COLUMN_RELEASE_DATE, COLUMN_POSTER_PATH,
                         COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT, COLUMN_IS_FAVORITE}
                 , COLUMN_IS_FAVORITE + "=?", new String[]{String.valueOf(1)}, null, null, null);
-
         if (cursor.moveToFirst()) {
             do {
-                HashMap<String, String> movieInfo = new HashMap<String, String>();
-                movieInfo.put("id", cursor.getString(0));
-                movieInfo.put("title", cursor.getString(1));
-                movieInfo.put("release_date", cursor.getString(2));
-                movieInfo.put("poster_path", cursor.getString(3));
-                movieInfo.put("vote_average", cursor.getString(4));
-                movieInfo.put("vote_count", cursor.getString(5));
-                movieInfo.put("FAV", String.valueOf(cursor.getInt(6)));
-                if (cursor.getInt(6) == 1) {
-                    allMovies.add(movieInfo);
-                }
+                MovieDB movieDB = new MovieDB();
+                movieDB.setMovieId(cursor.getString(0).toString());
+                movieDB.setMovieTitle(cursor.getString(1));
+                movieDB.setMovieReleaseDate(cursor.getString(2));
+                movieDB.setImagePath(cursor.getString(3));
+                movieDB.setMovieVoteCount(cursor.getString(4));
+                movieDB.setMovieVoteCount(cursor.getString(4));
+                movieDB.setMovieFavListImage(cursor.getString(4));
+                movieDBList.add(movieDB);
             } while (cursor.moveToNext());
         }
+        System.out.println("size" + movieDBList.size());
         cursor.close();
-        return allMovies;
+        return movieDBList;
     }
 
-    public ArrayList<HashMap<String, String>> getWatchList() {
-        ArrayList<HashMap<String, String>> allMovies = new ArrayList<HashMap<String, String>>();
-        SQLiteDatabase db = this.getReadableDatabase();
 
-        try {
-            Cursor cursor = db.query(TABLE_MOVIEDETAILS,
-                    new String[]{COLUMN_ID, COLUMN_TITLE, COLUMN_RELEASE_DATE, COLUMN_POSTER_PATH,
-                            COLUMN_VOTE_AVERAGE, COLUMN_VOTE_COUNT, COLUMN_IS_WATCHLIST}
-                    , COLUMN_IS_WATCHLIST + "=?", new String[]{String.valueOf(1)}, null, null, null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    HashMap<String, String> movieInfo = new HashMap<String, String>();
-                    movieInfo.put("id", cursor.getString(0));
-                    movieInfo.put("title", cursor.getString(1));
-                    movieInfo.put("release_date", cursor.getString(2));
-                    movieInfo.put("poster_path", cursor.getString(3));
-                    movieInfo.put("vote_average", cursor.getString(4));
-                    movieInfo.put("vote_count", cursor.getString(5));
-                    movieInfo.put("WL", String.valueOf(cursor.getInt(6)));
-                    if (cursor.getInt(6) == 1) {
-                        allMovies.add(movieInfo);
-                    }
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        } catch (Exception e) {
-            MovieDetails d = new MovieDetails();
-            Toast.makeText(d.context, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        return allMovies;
-    }
 
     public void deleteNonFavWatchMovie() {
         SQLiteDatabase db = this.getWritableDatabase();

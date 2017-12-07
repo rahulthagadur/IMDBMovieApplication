@@ -7,7 +7,23 @@ package com.example.thagadur.imdbmovieapp.Module;
 public class MovieDetailsDB {
 
     String movieImage,movieRatingBar,movieTitle,movieTagLine,movieRealeaseDate,movieBudget,movieRevenue;
-    String movieStatus,movieRatingBar2,movieVoteAverage,movieDescription,movieVoteCountUsers;
+    String movieStatus, movieRatingBar2, movieVoteAverage, movieDescription, movieVoteCountUsers, movieTagId, movieIMDB_Id;
+
+    public String getMovieTagId() {
+        return movieTagId;
+    }
+
+    public void setMovieTagId(String movieTagId) {
+        this.movieTagId = movieTagId;
+    }
+
+    public String getMovieIMDB_Id() {
+        return movieIMDB_Id;
+    }
+
+    public void setMovieIMDB_Id(String movieIMDB_Id) {
+        this.movieIMDB_Id = movieIMDB_Id;
+    }
 
     public String getMovieImage() {
         return movieImage;

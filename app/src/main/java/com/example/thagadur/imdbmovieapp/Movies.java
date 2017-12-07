@@ -1,8 +1,6 @@
 package com.example.thagadur.imdbmovieapp;
 
-/**
- * Created by Tungenwar on 20/05/2015.
- */
+
 public class Movies {
     String _id, _vote_count, _vote_average, _popularity, _poster_path;
     String _title, release__date, _is_favorite, _is_watchlist;

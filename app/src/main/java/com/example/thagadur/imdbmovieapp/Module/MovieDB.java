@@ -24,6 +24,25 @@ public class MovieDB {
     String movieVoteCount;
     String moviePopularity;
 
+    int movieFavorite;
+    int movieWatchList;
+
+    public int getMovieFavorite() {
+        return movieFavorite;
+    }
+
+    public void setMovieFavorite(int movieFavorite) {
+        this.movieFavorite = movieFavorite;
+    }
+
+    public int getMovieWatchList() {
+        return movieWatchList;
+    }
+
+    public void setMovieWatchList(int movieWatchList) {
+        this.movieWatchList = movieWatchList;
+    }
+
     public String getMovieId() {
         return movieId;
     }

@@ -142,7 +142,7 @@
                 android:paddingRight="25dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/favourite_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -168,7 +168,7 @@
                 android:paddingRight="25dp">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/watchlist_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
