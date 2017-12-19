@@ -1,6 +1,9 @@
 package com.example.thagadur.imdbmovieapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,14 +36,45 @@ public class MainActivity extends AppCompatActivity {
     MovieListAdapter movieListAdapter;
     ArrayList<HashMap<String, String>> movieList;
     String movieDbUrlPopular;
+    String movieUrlQuery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialiseLayoutFields();
-        String movieUrlQuery=movieDbUrlPopular;
-        loadMovieData(movieUrlQuery);
+        movieUrlQuery = movieDbUrlPopular;
+        //loadMovieData(movieUrlQuery);
 
+    }
+
+    /**
+     * Here calling isOnline()
+     * If not connected redirecting to OffLineActivity class
+     * If connected called loadMovieData()
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isOnline()) {
+            Intent intent = new Intent();
+            intent.setClass(this, OffLineActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            loadMovieData(movieUrlQuery);
+        }
+    }
+
+    /**
+     * we are going to check whether the device is connected to the internet
+     *
+     * @return
+     */
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
     public void initialiseLayoutFields(){
         context=this;
